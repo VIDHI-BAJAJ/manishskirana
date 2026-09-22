@@ -135,6 +135,42 @@
     items.forEach((el) => io.observe(el));
   }
 
+  /* 4b ── photo stack (auto-rotating "our story" prints) ───────────────── */
+
+  function initPhotoStack() {
+    $$('[data-photo-stack]').forEach((stack) => {
+      const items = $$('[data-stack-item]', stack);
+      if (items.length < 2) return;
+      const roles = ['is-front', 'is-next', 'is-back'];
+      let offset = 0;
+
+      const apply = () => {
+        items.forEach((el, i) => {
+          const role = (i - offset + items.length) % items.length;
+          el.classList.remove(...roles, 'is-hidden');
+          el.classList.add(role < roles.length ? roles[role] : 'is-hidden');
+        });
+      };
+      apply();
+
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduceMotion) return; // keep the top photo still, no autoplay
+
+      let timer = null;
+      const advance = () => { offset = (offset + 1) % items.length; apply(); };
+      const start = () => { if (!timer) timer = setInterval(advance, 5000); };
+      const stop = () => { clearInterval(timer); timer = null; };
+
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver((entries) => {
+          entries.forEach((entry) => (entry.isIntersecting ? start() : stop()));
+        }, { threshold: 0.2 }).observe(stack);
+      } else {
+        start();
+      }
+    });
+  }
+
   /* 5 ─── lead gate ─────────────────────────────────────────────────────── */
 
   const GATE_KEY = 'manishs.access';
@@ -566,6 +602,7 @@
     applySiteDetails();
     initHeader();
     initReveal();
+    initPhotoStack();
     gate.init();
     initCatalogue();
     initProductPage();
