@@ -348,7 +348,7 @@
             '<h2>' + esc(cat.name) + '</h2>' +
             '<span class="catalogue-group__count">' + items.length + (items.length === 1 ? ' line' : ' lines') + '</span>' +
           '</div>' +
-          '<div class="grid grid--4">' + items.map(productCard).join('') +
+          '<div class="grid grid--4 grid--cat2">' + items.map(productCard).join('') +
             (q ? '' : '<div class="placeholder"><strong>[More ' + esc(cat.name.toLowerCase()) + ']</strong><span>Add them in assets/js/data.js and they appear here.</span></div>') +
           '</div></section>';
       });
