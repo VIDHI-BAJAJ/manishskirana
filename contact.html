@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact — Manish's</title>
+<meta name="description" content="Bulk enquiries, retail stocking, samples and price lists — get in touch with Manish's.">
+<meta property="og:title" content="Contact — Manish's">
+<meta property="og:description" content="Bulk enquiries, retail stocking, samples and price lists — get in touch with Manish's.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#1e5841">
+<link rel="icon" href="assets/img/logo-label.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a class="brand" href="index.html" aria-label="Manish's — home">
+      <img src="assets/img/logo-label.png" alt="Manish's" width="140" height="107">
+    </a>
+    <nav class="nav" aria-label="Primary"><a class="nav__link" href="index.html">Home</a><a class="nav__link" href="about.html">About</a><a class="nav__link" href="products.html">Products</a><a class="nav__link" href="testimonials.html">Testimonials</a><a class="nav__link" href="contact.html" aria-current="page">Contact</a></nav>
+    <div class="header__actions">
+      <a class="btn btn--primary btn--sm" href="contact.html">Enquire</a>
+      <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="drawer">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="drawer" id="drawer" aria-hidden="true" aria-label="Menu">
+  <div class="drawer__top">
+    <img src="assets/img/logo-crest.png" alt="Manish's" style="height:38px;width:auto">
+    <button class="drawer__close" type="button" data-drawer-close aria-label="Close menu">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+  <div class="drawer__body">
+    <nav class="drawer__list" aria-label="Mobile"><a class="drawer__link" href="index.html">Home</a><a class="drawer__link" href="about.html">About</a><a class="drawer__link" href="products.html">Products</a><a class="drawer__link" href="testimonials.html">Testimonials</a><a class="drawer__link" href="contact.html" aria-current="page">Contact</a></nav>
+    <div class="drawer__meta">
+      <a data-site-link="phone" href="contact.html"><span data-site="phone"></span></a>
+      <a data-site-link="email" href="contact.html"><span data-site="email"></span></a>
+    </div>
+  </div>
+</div>
+<main id="main">
+
+<section class="page-head">
+  <div class="container page-head__inner">
+    <div class="stack" style="--gap:1.5rem">
+      <p class="eyebrow">Contact</p>
+      <h1>Tell us what<br>your kitchen needs.</h1>
+    </div>
+    <p class="page-head__lede">Bulk enquiries, retail stocking, samples or a price list &mdash; send the details and the right person will come back to you, usually within one working day.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container contact-grid">
+
+    <form class="form form--card" id="enquiry-form" novalidate>
+      <div class="stack" style="--gap:0.375rem">
+        <h2 style="font-size:var(--fs-h3)">Send an enquiry</h2>
+        <p style="font-size:var(--fs-small);color:var(--ink-muted)">Fields marked with an asterisk are required.</p>
+      </div>
+      <div class="form__row form__row--2">
+        <div class="field"><label for="c-name">Your name *</label><input id="c-name" name="name" type="text" autocomplete="name" placeholder="Full name" required></div>
+        <div class="field"><label for="c-company">Company</label><input id="c-company" name="company" type="text" autocomplete="organization" placeholder="Business or store name"></div>
+        <div class="field"><label for="c-email">Email *</label><input id="c-email" name="email" type="email" autocomplete="email" placeholder="you@company.com" required></div>
+        <div class="field"><label for="c-phone">Phone *</label><input id="c-phone" name="phone" type="tel" autocomplete="tel" placeholder="Include country code" required></div>
+        <div class="field"><label for="c-interest">Interested in</label>
+          <select id="c-interest" name="interest">
+            <option value="dry-fruits-nuts">Dry fruits &amp; nuts</option>
+            <option value="seeds">Seeds</option>
+            <option value="spices-essentials">Spices &amp; essentials</option>
+            <option value="speciality">Speciality products</option>
+            <option value="mixed">A mix &mdash; see message</option>
+          </select>
+        </div>
+        <div class="field"><label for="c-volume">Approximate volume</label>
+          <select id="c-volume" name="volume">
+            <option>Retail packs (400g)</option>
+            <option>Under 100 kg</option>
+            <option>100 &ndash; 500 kg</option>
+            <option>500 kg and above</option>
+          </select>
+        </div>
+      </div>
+      <div class="field"><label for="c-message">Message</label><textarea id="c-message" name="message" rows="4" placeholder="Lines, grades, packing and when you need them"></textarea></div>
+      <div class="form__foot">
+        <span style="font-size:0.8125rem;color:var(--ink-muted)">We reply from <span data-site="email"></span>. No marketing lists.</span>
+        <button class="btn btn--primary" type="submit">Send enquiry</button>
+      </div>
+      <p class="form-status" id="form-status" hidden></p>
+    </form>
+
+    <div class="stack" style="--gap:1.75rem">
+      <div class="contact-card">
+        <h2 style="font-size:var(--fs-h3)">Contact details</h2>
+        <div class="contact-row">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a1 1 0 01-1 1A16 16 0 014 5a1 1 0 011-1z"/></svg>
+          <span><span class="contact-row__k">Phone</span><span class="contact-row__v"><a data-site-link="phone" href="#"><span data-site="phone"></span></a></span></span>
+        </div>
+        <div class="contact-row">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="3" y="5" width="18" height="14"/><path d="M3 6l9 7 9-7"/></svg>
+          <span><span class="contact-row__k">Email</span><span class="contact-row__v"><a data-site-link="email" href="#"><span data-site="email"></span></a></span></span>
+        </div>
+        <div class="contact-row">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 10-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>
+          <span><span class="contact-row__k">Address</span><span class="contact-row__v" data-site="address"></span></span>
+        </div>
+        <div class="contact-row">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+          <span><span class="contact-row__k">Hours</span><span class="contact-row__v" data-site="hours"></span></span>
+        </div>
+      </div>
+
+      <a class="btn btn--ghost btn--block" data-site-link="whatsapp" href="#"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 01-12.6 7.3L3 20.5l1.8-5.2A8.5 8.5 0 1121 11.5z"/><path d="M8.6 9.2c.4 2.6 2.6 4.8 5.2 5.2l1-1.4 2 .9-.4 1.6c-3.6.5-7.4-3.3-6.9-6.9l1.6-.4.9 2z"/></svg>Message us on WhatsApp</a>
+
+      <div class="aside-note">
+        <span class="note-label">Trade enquiries</span>
+        <p>Distributors and export buyers &mdash; mention your market and we will send the current grade and packing sheet.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="section section--deep">
+  <div class="container stack" style="--gap:2rem">
+    <div class="section-head section-head--row reveal">
+      <div class="stack" style="--gap:1.125rem">
+        <p class="eyebrow">Location</p>
+        <h2>Come and taste the crop.</h2>
+      </div>
+      <a class="btn btn--ghost btn--sm" data-site-link="maps" href="#">Open in maps <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+    <div class="map-grid reveal">
+      <div class="map-slot">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 10-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>
+        <strong style="font-size:var(--fs-eyebrow);letter-spacing:0.16em;text-transform:uppercase">[EMBEDDED MAP &mdash; DROP THE PIN HERE]</strong>
+      </div>
+      <div class="map-aside">
+        <h5>Visiting the counter</h5>
+        <p>Samples are laid out on the counter, not sent from a catalogue. Call ahead and we will have the lines you asked about ready to taste.</p>
+        <hr class="hr-gold">
+        <span style="font-weight:500;line-height:1.6" data-site="address"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+<footer class="site-footer">
+  <div class="container footer__grid">
+    <div class="footer__mark">
+      <img src="assets/img/logo-crest.png" alt="Manish's">
+      <p class="footer__tagline">Good ingredients.<br>Brighter tomorrows.</p>
+    </div>
+    <div>
+      <span class="footer__title">Explore</span>
+      <ul class="footer__list">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="products.html">Products</a></li>
+        <li><a href="testimonials.html">Testimonials</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <span class="footer__title">Get in touch</span>
+      <ul class="footer__list">
+        <li><a data-site-link="phone" href="contact.html"><span data-site="phone"></span></a></li>
+        <li><a data-site-link="email" href="contact.html"><span data-site="email"></span></a></li>
+        <li><span data-site="address"></span></li>
+      </ul>
+    </div>
+    <div>
+      <span class="footer__title">Follow</span>
+      <div class="socials">
+        <a href="#" data-social="instagram" aria-label="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1"/></svg></a>
+        <a href="#" data-social="facebook" aria-label="Facebook"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M14 8h3V4h-3a4 4 0 00-4 4v2H7v4h3v6h4v-6h3l1-4h-4v-2a1 1 0 011-1z"/></svg></a>
+        <a href="#" data-social="linkedin" aria-label="LinkedIn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="3" y="3" width="18" height="18"/><path d="M7 10v7M7 7v.01M11 17v-4a2 2 0 014 0v4"/></svg></a>
+      </div>
+    </div>
+  </div>
+  <div class="container footer__bar">
+    <span>&copy; <span data-site="year">2026</span> Manish&rsquo;s. All rights reserved.</span>
+    <span class="footer__legal"><a href="#">Privacy policy</a><a href="#">Terms &amp; conditions</a></span>
+  </div>
+</footer>
+
+<div class="modal" id="lead-gate" role="dialog" aria-modal="true" aria-labelledby="gate-title" aria-hidden="true">
+  <div class="modal__dialog">
+    <button class="modal__close" type="button" data-gate-close aria-label="Close">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+
+    <div class="modal__panel" data-panel="form">
+      <div class="stack" style="--gap:0.875rem">
+        <p class="eyebrow">One step first</p>
+        <h2 id="gate-title" style="font-size:var(--fs-h3)">Who are we sending this to?</h2>
+        <p style="font-size:0.9375rem;color:var(--ink-soft)">Leave your name and phone number to open grades, origins and packing &mdash; and to download the brochure. Once only; we will not pass it on.</p>
+        <p data-gate-context class="modal__note"></p>
+      </div>
+      <form class="form" id="gate-form" novalidate>
+        <div class="field">
+          <label for="gate-name">Your name *</label>
+          <input id="gate-name" name="name" type="text" autocomplete="name" placeholder="Full name" required>
+        </div>
+        <div class="field">
+          <label for="gate-phone">Phone number *</label>
+          <input id="gate-phone" name="phone" type="tel" autocomplete="tel" placeholder="Include country code" required>
+        </div>
+        <button class="btn btn--primary btn--block" type="submit">Unlock product details</button>
+        <p class="modal__note">By continuing you agree we may contact you about this enquiry. No marketing lists, no resale of your number.</p>
+      </form>
+    </div>
+
+    <div class="modal__panel" data-panel="done" hidden>
+      <div class="tick"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+      <div class="stack" style="--gap:0.75rem">
+        <h2 style="font-size:var(--fs-h3)">Unlocked. Thank you.</h2>
+        <p style="font-size:0.9375rem;color:var(--ink-soft)">The full catalogue is open on this device for the next 30 days. Someone from the counter will call if you asked for a sample.</p>
+      </div>
+      <div class="stack" style="--gap:0.75rem">
+        <a class="btn btn--primary btn--block" data-gate-continue href="products.html">Continue <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="btn btn--ghost btn--block" href="#" data-brochure><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 3v12M7.5 11l4.5 4.5 4.5-4.5M4 20h16"/></svg>Download the brochure</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
