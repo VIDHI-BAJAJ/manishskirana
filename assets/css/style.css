@@ -529,7 +529,7 @@ ul { margin: 0; padding: 0; list-style: none; }
 .note-label { display: block; font-size: var(--fs-eyebrow); font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold-text); margin-bottom: 0.4rem; }
 .recipe { padding: 1.5rem; background: var(--ivory-deep); }
 .recipe p { font-size: var(--fs-small); line-height: 1.7; }
-.tags { display: flex; flex-wrap: wrap; gap: 0.625rem; }
+.tags { display: flex; flex-wrap: wrap; gap: 0.625rem; border-radius: var(--radius-card); }
 .tag { padding: 0.5625rem 1rem; border: 1px solid rgba(176, 141, 87, 0.6); font-size: var(--fs-ui); font-weight: 500; line-height: 1.2; }
 .pdp__actions { display: flex; flex-wrap: wrap; gap: 0.875rem; }
 
