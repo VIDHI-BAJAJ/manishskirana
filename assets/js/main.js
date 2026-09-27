@@ -36,6 +36,22 @@
   const hasData = typeof PRODUCTS !== 'undefined';
   const filled  = (v) => typeof v === 'string' && v && !/^\[.*\]$/.test(v.trim());
 
+  // Sends a lead/enquiry straight to the owner's inbox via Web3Forms (free service, no backend needed).
+  // Fires in the background — never blocks or changes the on-page "thank you" message.
+  // Does nothing until SITE.formAccessKey is filled in (see assets/js/data.js).
+  function sendToInbox(payload, formName) {
+    if (!SITE || !SITE.formAccessKey) return;
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify(Object.assign({
+        access_key: SITE.formAccessKey,
+        subject: "New " + formName + " \u2014 Manish's website",
+        from_name: "Manish's website"
+      }, payload))
+    }).catch(function () { /* silent — the local copy still has this submission */ });
+  }
+
   /* 2 ─── business details ──────────────────────────────────────────────── */
 
   function applySiteDetails() {
@@ -65,6 +81,20 @@
     }
     if (SITE.mapsUrl) {
       $$('[data-site-link="maps"]').forEach((a) => { a.href = SITE.mapsUrl; a.target = '_blank'; a.rel = 'noopener'; });
+    }
+    if (SITE.address && SITE.address.length) {
+      const query = encodeURIComponent(SITE.address.join(', '));
+      $$('[data-site="map-embed"]').forEach((el) => {
+        const iframe = document.createElement('iframe');
+        iframe.src = 'https://maps.google.com/maps?q=' + query + '&t=&z=15&ie=UTF8&iwloc=&output=embed';
+        iframe.loading = 'lazy';
+        iframe.referrerPolicy = 'no-referrer-when-downgrade';
+        iframe.title = 'Map showing our location';
+        iframe.setAttribute('allowfullscreen', '');
+        el.innerHTML = '';
+        el.appendChild(iframe);
+        el.classList.add('map-slot--filled');
+      });
     }
     Object.keys(SITE.social || {}).forEach((k) => {
       if (!SITE.social[k]) return;
@@ -118,21 +148,45 @@
 
   /* 4 ─── scroll reveal ─────────────────────────────────────────────────── */
 
+  let revealIO = null;
+  let revealFallback = false;
+
+  // observe one or more elements for the scroll-reveal animation; safe to
+  // call any time, including after content is injected dynamically later
+  // (e.g. the product catalogue re-rendering on filter/search)
+  function observeReveal(els) {
+    const list = els.length === undefined ? [els] : els;
+    if (revealFallback || !('IntersectionObserver' in window)) {
+      list.forEach((el) => el.classList.add('is-visible'));
+      return;
+    }
+    if (!revealIO) {
+      revealIO = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-visible');
+          revealIO.unobserve(entry.target);
+        });
+      }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+    }
+    list.forEach((el) => revealIO.observe(el));
+  }
+
   function initReveal() {
+    // apply the reveal animation to every content section site-wide,
+    // not just the hand-picked elements that already carry the class
+    $$('section.section, section.cta-band').forEach((el) => {
+      if (!el.classList.contains('reveal')) el.classList.add('reveal');
+    });
+
     const items = $$('.reveal');
     if (!items.length) return;
     if (!('IntersectionObserver' in window)) {
+      revealFallback = true;
       items.forEach((el) => el.classList.add('is-visible'));
       return;
     }
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        entry.target.classList.add('is-visible');
-        io.unobserve(entry.target);
-      });
-    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
-    items.forEach((el) => io.observe(el));
+    observeReveal(items);
   }
 
   /* 4b ── photo stack (auto-rotating "our story" prints) ───────────────── */
@@ -262,10 +316,15 @@
       ok = validateField(phone, isPhone, 'Enter a phone number we can reach you on.') && ok;
       if (!ok) { const bad = $('.is-invalid input', this.el); if (bad) bad.focus(); return; }
 
+      const leadName = name.value.trim();
+      const leadPhone = phone.value.trim();
+
       const leads = store.get(LEADS_KEY, []);
-      leads.push({ name: name.value.trim(), phone: phone.value.trim(), at: new Date().toISOString(), from: location.pathname });
+      leads.push({ name: leadName, phone: leadPhone, at: new Date().toISOString(), from: location.pathname });
       store.set(LEADS_KEY, leads);
-      store.set(GATE_KEY, { at: Date.now(), name: name.value.trim() });
+      store.set(GATE_KEY, { at: Date.now(), name: leadName });
+
+      sendToInbox({ name: leadName, phone: leadPhone, page: location.pathname }, 'lead');
 
       this.mandatory = false;
       this.panelForm.hidden = true;
@@ -293,14 +352,18 @@
 
   /* 6 ─── catalogue ─────────────────────────────────────────────────────── */
 
-  function productCard(p) {
+  function productCard(p, i) {
     const img = p.image
       ? '<img src="' + esc(p.image) + '" alt="' + esc(p.name) + '"' +
         (p.imageFit === 'cover' ? ' style="width:100%;height:100%;object-fit:cover"' : '') + ' loading="lazy">'
       : '<div class="placeholder placeholder--media"><strong>[' + esc(p.imageNote || 'PHOTO') + ']</strong></div>';
 
+    // stagger each card's fade-in slightly so a product line animates in
+    // as a little cascade rather than everything popping in at once
+    const delay = ((i || 0) % 8) * 0.06;
+
     return '' +
-      '<a class="product-card" href="product.html?p=' + esc(p.slug) + '" data-gated data-gate-label="from opening ' + esc(p.name) + '">' +
+      '<a class="product-card reveal" style="transition-delay:' + delay.toFixed(2) + 's" href="product.html?p=' + esc(p.slug) + '" data-gated data-gate-label="from opening ' + esc(p.name) + '">' +
         '<div class="product-card__media">' +
           '<span class="chip' + (p.imageFit === 'cover' ? ' chip--on-photo' : '') + '">' + esc(p.group) + '</span>' +
           img +
@@ -330,6 +393,17 @@
         CATEGORIES.map((c) => '<button type="button" class="filter" aria-pressed="false" data-cat="' + esc(c.id) + '">' + esc(c.name) + '</button>').join('');
     }
 
+    function selectCategory(id, scrollTarget) {
+      active = id;
+      $$('.filter', filterBar).forEach((b) => b.setAttribute('aria-pressed', String(b.getAttribute('data-cat') === id)));
+      render();
+      // bring the filter bar into view so it's clear the tab above changed
+      const target = scrollTarget || filterBar;
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    const PREVIEW_LIMIT = 8;
+
     function render() {
       const q = term.trim().toLowerCase();
       const cats = active === 'all' ? CATEGORIES : CATEGORIES.filter((c) => c.id === active);
@@ -343,29 +417,44 @@
         });
         if (!items.length) return;
         shown += items.length;
+
+        // on the "all products" tab, keep each category to a short preview
+        // and let people open the full category via "View all" instead
+        const capped = active === 'all' && !q && items.length > PREVIEW_LIMIT;
+        const visible = capped ? items.slice(0, PREVIEW_LIMIT) : items;
+
         html += '<section class="catalogue-group" id="' + esc(cat.id) + '">' +
           '<div class="catalogue-group__head">' +
             '<h2>' + esc(cat.name) + '</h2>' +
-            '<span class="catalogue-group__count">' + items.length + (items.length === 1 ? ' line' : ' lines') + '</span>' +
+            '<span class="catalogue-group__head-right">' +
+              '<span class="catalogue-group__count">' + items.length + (items.length === 1 ? ' line' : ' lines') + '</span>' +
+              (capped ? '<button type="button" class="link-arrow view-all" data-view-all="' + esc(cat.id) + '">View all <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>' : '') +
+            '</span>' +
           '</div>' +
-          '<div class="grid grid--4 grid--cat2">' + items.map(productCard).join('') +
-            (q ? '' : '<div class="placeholder"><strong>[More ' + esc(cat.name.toLowerCase()) + ']</strong><span>Add them in assets/js/data.js and they appear here.</span></div>') +
+          '<div class="grid grid--4 grid--cat2">' + visible.map(productCard).join('') +
           '</div></section>';
       });
 
       host.innerHTML = shown ? html :
         '<p class="catalogue-empty">Nothing matches &ldquo;' + esc(term) + '&rdquo;. Try a product name, an origin or a use.</p>';
+
+      // the cards above are brand-new DOM nodes, so hand them to the
+      // scroll-reveal observer now that they exist
+      observeReveal($$('.product-card.reveal', host));
     }
 
     if (filterBar) {
       filterBar.addEventListener('click', (e) => {
         const btn = e.target.closest('.filter');
         if (!btn) return;
-        active = btn.getAttribute('data-cat');
-        $$('.filter', filterBar).forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
-        render();
+        selectCategory(btn.getAttribute('data-cat'));
       });
     }
+    host.addEventListener('click', (e) => {
+      const btn = e.target.closest('.view-all');
+      if (!btn) return;
+      selectCategory(btn.getAttribute('data-view-all'));
+    });
     if (search) {
       let t;
       search.addEventListener('input', () => {
@@ -415,11 +504,21 @@
     function renderBody() {
 
     const figure = p.image
-      ? '<img src="' + esc(p.image) + '" alt="' + esc(p.name) + '"' + (p.imageFit === 'cover' ? ' style="width:100%;height:100%;object-fit:cover"' : '') + '>'
+      ? '<img id="pdp-main-img" src="' + esc(p.image) + '" alt="' + esc(p.name) + '"' + (p.imageFit === 'cover' ? ' style="width:100%;height:100%;object-fit:cover"' : '') + '>'
       : '<div class="placeholder placeholder--media"><strong>[' + esc(p.imageNote || 'PHOTO') + ']</strong></div>';
 
+    const shots = [p.image ? { src: p.image, label: 'Front' } : null, p.back ? { src: p.back, label: 'Back' } : null].filter(Boolean);
+    const thumbs = shots.length > 1
+      ? '<div class="pdp__thumbs">' + shots.map((s, i) =>
+          '<button type="button" class="pdp__thumb' + (i === 0 ? ' is-active' : '') + '" data-pdp-thumb="' + esc(s.src) + '" aria-label="' + esc(s.label) + ' view"><img src="' + esc(s.src) + '" alt="' + esc(p.name) + ' — ' + esc(s.label) + '" loading="lazy"></button>'
+        ).join('') + '</div>'
+      : '';
+
     host.innerHTML = '' +
-      '<div class="pdp__figure">' + figure + '</div>' +
+      '<div class="pdp__gallery">' +
+        '<div class="pdp__figure">' + figure + '</div>' +
+        thumbs +
+      '</div>' +
       '<div class="stack" style="--gap:1.375rem">' +
         '<p class="eyebrow">' + esc(p.group) + '</p>' +
         '<div><h1>' + esc(p.name) + '</h1><p class="pdp__sub">' + esc(p.tagline) + '</p></div>' +
@@ -432,13 +531,22 @@
         '</div>' +
         '<div><span class="note-label">Storage &amp; freshness</span><p style="font-size:var(--fs-small);color:var(--ink-muted)">' + esc(p.storage) + '</p></div>' +
         '<div><span class="note-label">In the kitchen</span><div class="tags">' + (p.uses || []).map((u) => '<span class="tag">' + esc(u) + '</span>').join('') + '</div></div>' +
-        '<div class="recipe"><span class="note-label">A recipe to try</span><p>' + esc(p.recipe) + '</p></div>' +
         '<div class="pdp__actions">' +
           '<a class="btn btn--primary" href="contact.html?product=' + esc(p.slug) + '">Enquire about this product ' + ICON.arrow + '</a>' +
           '<a class="btn btn--ghost" data-site-link="whatsapp" href="contact.html">' +
             '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 01-12.6 7.3L3 20.5l1.8-5.2A8.5 8.5 0 1121 11.5z"/><path d="M8.6 9.2c.4 2.6 2.6 4.8 5.2 5.2l1-1.4 2 .9-.4 1.6c-3.6.5-7.4-3.3-6.9-6.9l1.6-.4.9 2z"/></svg>Ask on WhatsApp</a>' +
         '</div>' +
       '</div>';
+
+    if (shots.length > 1) {
+      $$('[data-pdp-thumb]', host).forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const mainImg = $('#pdp-main-img', host);
+          if (mainImg) mainImg.setAttribute('src', btn.getAttribute('data-pdp-thumb'));
+          $$('[data-pdp-thumb]', host).forEach((b) => b.classList.toggle('is-active', b === btn));
+        });
+      });
+    }
 
     // related
     const relHost = $('#related-products');
@@ -569,8 +677,7 @@
       });
       if (!ok) { const bad = $('.is-invalid input', form); if (bad) bad.focus(); return; }
 
-      const enquiries = store.get('manishs.enquiries', []);
-      enquiries.push({
+      const enquiry = {
         name: $('#c-name', form).value.trim(),
         email: $('#c-email', form).value.trim(),
         phone: $('#c-phone', form).value.trim(),
@@ -579,8 +686,13 @@
         volume: ($('#c-volume', form) || {}).value || '',
         message: ($('#c-message', form) || {}).value || '',
         at: new Date().toISOString()
-      });
+      };
+
+      const enquiries = store.get('manishs.enquiries', []);
+      enquiries.push(enquiry);
       store.set('manishs.enquiries', enquiries);
+
+      sendToInbox(enquiry, 'enquiry');
 
       const status = $('#form-status');
       if (status) {
@@ -596,6 +708,32 @@
     });
   }
 
+  /* 10 ── whatsapp floating button ──────────────────────────────────────── */
+
+  function initWhatsappFab() {
+    if (typeof SITE === 'undefined' || !SITE.whatsapp) return;
+    if ($('.whatsapp-fab')) return;
+
+    let message = "Hey, Manish Kirana can you please help me with your products?";
+    if (/product\.html/.test(location.pathname) && typeof PRODUCTS !== 'undefined') {
+      const slug = new URLSearchParams(location.search).get('p');
+      const prod = PRODUCTS.filter((x) => x.slug === slug)[0];
+      if (prod) message = "Hey, Manish Kirana can you please help me with " + prod.name + "?";
+    }
+
+    const a = document.createElement('a');
+    a.className = 'whatsapp-fab';
+    a.href = 'https://wa.me/' + SITE.whatsapp + '?text=' + encodeURIComponent(message);
+    a.target = '_blank';
+    a.rel = 'noopener';
+    a.setAttribute('aria-label', 'Chat with us on WhatsApp');
+    a.innerHTML = '<svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">' +
+      '<path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.06-1.33A9.94 9.94 0 0012 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18.2c-1.62 0-3.14-.44-4.44-1.2l-.32-.19-3 .79.8-2.93-.2-.3A8.18 8.18 0 013.8 12 8.2 8.2 0 1112 20.2z"/>' +
+      '<path d="M16.6 13.9c-.25-.13-1.5-.74-1.73-.82-.23-.09-.4-.13-.57.12-.17.26-.65.82-.8 1-.15.17-.3.19-.55.06-.25-.12-1.06-.39-2.02-1.24-.75-.66-1.25-1.48-1.4-1.73-.15-.26-.02-.4.11-.52.11-.11.25-.3.37-.44.13-.15.17-.26.25-.43.08-.17.04-.32-.02-.44-.06-.13-.57-1.36-.78-1.87-.2-.48-.42-.42-.57-.43h-.49c-.17 0-.44.06-.67.32-.23.26-.87.85-.87 2.07 0 1.22.9 2.4 1.02 2.57.13.17 1.77 2.7 4.28 3.79.6.26 1.06.41 1.43.53.6.19 1.14.16 1.57.1.48-.07 1.5-.61 1.71-1.2.21-.6.21-1.1.15-1.2-.06-.11-.23-.17-.48-.3z"/>' +
+      '</svg>';
+    document.body.appendChild(a);
+  }
+
   /* ─── boot ─────────────────────────────────────────────────────────────── */
 
   function boot() {
@@ -608,6 +746,7 @@
     initProductPage();
     initTestimonials();
     initEnquiryForm();
+    initWhatsappFab();
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
