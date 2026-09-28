@@ -682,7 +682,7 @@
       const status = $('#form-status');
       if (status) {
         status.hidden = false;
-        status.textContent = 'Thank you — your enquiry is noted. ' +
+        status.textContent = 'Thankyou, your enquiry is noted. ' +
           (filled(SITE.email)
             ? 'We reply from ' + SITE.email + ', usually within one working day.'
             : 'Someone from the counter will come back to you within one working day.');
