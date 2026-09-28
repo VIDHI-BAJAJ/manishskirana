@@ -17,7 +17,7 @@ const SITE = {
   address:   ['15-7-419/2, Begum Bazar, Hyderabad, Telangana - 500012'],
   mapsUrl:   'https://www.google.com/maps/search/?api=1&query=15-7-419%2F2%2C+Begum+Bazar%2C+Hyderabad%2C+Telangana+-+500012',               // "Open in maps" button — built from the address below; the embedded map on the contact page also uses SITE.address automatically
   founded:   1993,
-  formAccessKey: '',   // paste your free Web3Forms access key here (get one free at https://web3forms.com — takes 30 seconds, no card needed). Until this is filled in, enquiries and leads are only saved in the visitor's own browser, not sent to you.
+  formAccessKey: '268b07b2-27cb-4c79-a0fb-144f45131503',   // paste your free Web3Forms access key here (get one free at https://web3forms.com — takes 30 seconds, no card needed). Until this is filled in, enquiries and leads are only saved in the visitor's own browser, not sent to you.
   social: { instagram: '', facebook: '', linkedin: '' }
 };
 
@@ -652,15 +652,15 @@ const PRODUCTS = [
     uses: ['Tadka', 'Dal', 'Sambar', 'Pickles']
   },
   {
-    slug: 'meat-masala', name: 'Meat Masala', category: 'spices-essentials', group: 'Masalas & blends',
-    tagline: 'A house blend for non-veg gravies', origin: '[ORIGIN]',
-    image: '', imageNote: 'PHOTO: MEAT MASALA',
-    lede: 'A pre-blended masala built around the spices that suit meat gravies best — a shortcut for kitchens that would rather not measure out ten jars for one dish.',
+    slug: 'mix-masala', name: 'Mix Masala', category: 'spices-essentials', group: 'Masalas & blends',
+    tagline: 'A ready blend of ground spices for everyday gravies', origin: '[ORIGIN]',
+    image: 'assets/img/Mix_Masala_Open-removebg-preview.png',
+    lede: 'A pre-blended masala built around the spices most everyday gravies need — a shortcut for kitchens that would rather not measure out ten jars for one dish.',
     body: 'Blended in-house and ground fresh in batches rather than kept sitting on a shelf for months.',
-    bestFor: 'Mutton, chicken, kebabs', packing: 'Available from small retail packs to bulk cartons.',
+    bestFor: 'Curries, gravies, everyday cooking', packing: 'Available from small retail packs to bulk cartons.',
     storage: 'Airtight, cool and dark.',
-    recipe: 'Stir two spoons into a browning onion-tomato base before adding the meat, for a gravy with no further seasoning needed.',
-    uses: ['Mutton curry', 'Chicken curry', 'Kebabs', 'Biryani']
+    recipe: 'Stir two spoons into a browning onion-tomato base before adding the main ingredient, for a gravy with no further seasoning needed.',
+    uses: ['Curries', 'Gravies', 'Everyday cooking', 'Biryani']
   },
   {
     slug: 'biryani-phool-mix', name: 'Whole Spice Mix (Phool Mix)', category: 'spices-essentials', group: 'Masalas & blends',

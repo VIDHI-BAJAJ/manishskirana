@@ -402,40 +402,30 @@
       if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
-    const PREVIEW_LIMIT = 8;
+    // only these lines have finished packet photography — shown in this
+    // fixed order rather than catalogue order
+    const FEATURED_SLUGS = [
+      'jeera', 'mustard-seeds', 'sesame-seeds', 'eating-soda',
+      'citric-acid', 'ajinomoto', 'desiccated-coconut-powder', 'mix-masala'
+    ];
 
     function render() {
       const q = term.trim().toLowerCase();
       const cats = active === 'all' ? CATEGORIES : CATEGORIES.filter((c) => c.id === active);
-      let html = '';
-      let shown = 0;
+      const catIds = cats.map((c) => c.id);
 
-      cats.forEach((cat) => {
-        const items = PRODUCTS.filter((p) => p.category === cat.id).filter((p) => {
-          if (!q) return true;
-          return (p.name + ' ' + p.tagline + ' ' + p.group + ' ' + (p.uses || []).join(' ')).toLowerCase().indexOf(q) > -1;
-        });
-        if (!items.length) return;
-        shown += items.length;
-
-        // on the "all products" tab, keep each category to a short preview
-        // and let people open the full category via "View all" instead
-        const capped = active === 'all' && !q && items.length > PREVIEW_LIMIT;
-        const visible = capped ? items.slice(0, PREVIEW_LIMIT) : items;
-
-        html += '<section class="catalogue-group" id="' + esc(cat.id) + '">' +
-          '<div class="catalogue-group__head">' +
-            '<h2>' + esc(cat.name) + '</h2>' +
-            '<span class="catalogue-group__head-right">' +
-              '<span class="catalogue-group__count">' + items.length + (items.length === 1 ? ' line' : ' lines') + '</span>' +
-              (capped ? '<button type="button" class="link-arrow view-all" data-view-all="' + esc(cat.id) + '">View all <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>' : '') +
-            '</span>' +
-          '</div>' +
-          '<div class="grid grid--4 grid--cat2">' + visible.map(productCard).join('') +
-          '</div></section>';
+      let items = PRODUCTS.filter((p) => FEATURED_SLUGS.indexOf(p.slug) > -1 && catIds.indexOf(p.category) > -1).filter((p) => {
+        if (!q) return true;
+        return (p.name + ' ' + p.tagline + ' ' + p.group + ' ' + (p.uses || []).join(' ')).toLowerCase().indexOf(q) > -1;
       });
+      items.sort((a, b) => FEATURED_SLUGS.indexOf(a.slug) - FEATURED_SLUGS.indexOf(b.slug));
 
-      host.innerHTML = shown ? html :
+      const more = '<div class="catalogue-more">' +
+        '<a class="btn btn--ghost" href="https://drive.google.com/file/d/1Wv7-KLchMu80b-bb1kwEi6FxfUnyIcOr/view" target="_blank" rel="noopener" data-gated data-gate-label="from the brochure" data-brochure>More products ' +
+        '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>';
+
+      host.innerHTML = items.length ?
+        '<div class="grid grid--4 grid--cat2">' + items.map(productCard).join('') + '</div>' + more :
         '<p class="catalogue-empty">Nothing matches &ldquo;' + esc(term) + '&rdquo;. Try a product name, an origin or a use.</p>';
 
       // the cards above are brand-new DOM nodes, so hand them to the
@@ -450,11 +440,6 @@
         selectCategory(btn.getAttribute('data-cat'));
       });
     }
-    host.addEventListener('click', (e) => {
-      const btn = e.target.closest('.view-all');
-      if (!btn) return;
-      selectCategory(btn.getAttribute('data-view-all'));
-    });
     if (search) {
       let t;
       search.addEventListener('input', () => {
@@ -551,7 +536,7 @@
     // related
     const relHost = $('#related-products');
     if (relHost) {
-      const related = PRODUCTS.filter((x) => x.category === p.category && x.slug !== p.slug).slice(0, 4);
+      const related = PRODUCTS.filter((x) => x.category === p.category && x.slug !== p.slug && x.image).slice(0, 4);
       $$('[data-related-cat]').forEach((el) => { el.textContent = cat.name; });
       relHost.innerHTML = related.map((r) =>
         '<a class="mini-card" href="product.html?p=' + esc(r.slug) + '">' +
