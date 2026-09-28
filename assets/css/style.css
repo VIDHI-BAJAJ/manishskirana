@@ -346,6 +346,10 @@ ul { margin: 0; padding: 0; list-style: none; }
 .stat__label { font-size: var(--fs-small); font-weight: 500; color: var(--ink-muted); }
 .stats--divided .stat + .stat { padding-left: 2.5rem; border-left: 1px solid rgba(176, 141, 87, 0.4); }
 
+.points { display: flex; flex-direction: column; gap: 1.125rem; }
+.points li { position: relative; padding-left: 1.75rem; color: var(--ink-soft); line-height: 1.7; }
+.points li::before { content: ""; position: absolute; left: 0; top: 0.6em; width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--gold); }
+
 /* feature columns */
 .feature { display: flex; flex-direction: column; gap: 0.875rem; padding-left: 1.75rem; border-left: 1px solid rgba(176, 141, 87, 0.5); }
 .feature svg { color: var(--gold); }

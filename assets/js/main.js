@@ -38,14 +38,14 @@
 
   // Sends a lead/enquiry straight to the owner's inbox via Web3Forms (free service, no backend needed).
   // Fires in the background — never blocks or changes the on-page "thank you" message.
-  // Does nothing until SITE.formAccessKey is filled in (see assets/js/data.js).
-  function sendToInbox(payload, formName) {
-    if (!SITE || !SITE.formAccessKey) return;
+  // Does nothing until the relevant SITE.formAccessKey* is filled in (see assets/js/data.js).
+  function sendToInbox(payload, formName, accessKey) {
+    if (!accessKey) return;
     fetch('https://api.web3forms.com/submit', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
       body: JSON.stringify(Object.assign({
-        access_key: SITE.formAccessKey,
+        access_key: accessKey,
         subject: "New " + formName + " \u2014 Manish's website",
         from_name: "Manish's website"
       }, payload))
@@ -324,7 +324,7 @@
       store.set(LEADS_KEY, leads);
       store.set(GATE_KEY, { at: Date.now(), name: leadName });
 
-      sendToInbox({ name: leadName, phone: leadPhone, page: location.pathname }, 'lead');
+      sendToInbox({ name: leadName, phone: leadPhone, page: location.pathname }, 'lead', SITE && SITE.formAccessKeyLeadGate);
 
       this.mandatory = false;
       this.panelForm.hidden = true;
@@ -677,7 +677,7 @@
       enquiries.push(enquiry);
       store.set('manishs.enquiries', enquiries);
 
-      sendToInbox(enquiry, 'enquiry');
+      sendToInbox(enquiry, 'enquiry', SITE && SITE.formAccessKeyContact);
 
       const status = $('#form-status');
       if (status) {

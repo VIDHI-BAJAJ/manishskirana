@@ -17,7 +17,10 @@ const SITE = {
   address:   ['15-7-419/2, Begum Bazar, Hyderabad, Telangana - 500012'],
   mapsUrl:   'https://www.google.com/maps/search/?api=1&query=15-7-419%2F2%2C+Begum+Bazar%2C+Hyderabad%2C+Telangana+-+500012',               // "Open in maps" button — built from the address below; the embedded map on the contact page also uses SITE.address automatically
   founded:   1993,
-  formAccessKey: '268b07b2-27cb-4c79-a0fb-144f45131503',   // paste your free Web3Forms access key here (get one free at https://web3forms.com — takes 30 seconds, no card needed). Until this is filled in, enquiries and leads are only saved in the visitor's own browser, not sent to you.
+  // Web3Forms access keys (get one free at https://web3forms.com — takes 30 seconds, no card needed).
+  // Until these are filled in, enquiries and leads are only saved in the visitor's own browser, not sent to you.
+  formAccessKeyLeadGate: 'df7ef3ec-7b05-44dc-ae7f-40331883f5c5',   // the "Who are we sending this to?" popup that unlocks products/the brochure
+  formAccessKeyContact:  '268b07b2-27cb-4c79-a0fb-144f45131503',   // the Contact page enquiry form
   social: { instagram: '', facebook: '', linkedin: '' }
 };
 
