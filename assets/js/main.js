@@ -582,9 +582,7 @@
         '<figure class="review">' +
           '<div class="stars" aria-label="' + r.stars + ' out of 5">' + Array(r.stars + 1).join(ICON.star) + '</div>' +
           '<blockquote>' + esc(r.quote) + '</blockquote>' +
-          '<figcaption><b>' + esc(r.name) + '</b><span>' + esc(r.meta) + '</span></figcaption>' +
-        '</figure>').join('') +
-        '<div class="placeholder"><strong>[More reviews]</strong><span>Add them in assets/js/data.js and they appear here.</span></div>';
+        '</figure>').join('') ;
       const count = $('#review-count');
       if (count) count.textContent = REVIEWS.length + ' reviews';
     }

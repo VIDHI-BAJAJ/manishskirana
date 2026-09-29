@@ -964,15 +964,15 @@ const FEATURED_REVIEW = {
 };
 
 const REVIEWS = [
-  { quote: '[CUSTOMER QUOTE — two or three lines. Name the product if you can: which raisins, which dates, and what they noticed.]', name: '[NAME]', meta: '[CITY] · buys [PRODUCT]', stars: 5 },
-  { quote: '[CUSTOMER QUOTE]', name: '[NAME]', meta: '[CITY] · buys [PRODUCT]', stars: 5 },
-  { quote: '[CUSTOMER QUOTE]', name: '[NAME]', meta: '[CITY] · buys [PRODUCT]', stars: 5 },
-  { quote: '[CUSTOMER QUOTE]', name: '[NAME]', meta: '[CITY] · buys [PRODUCT]', stars: 5 },
-  { quote: '[CUSTOMER QUOTE]', name: '[NAME]', meta: '[CITY] · buys [PRODUCT]', stars: 5 }
+  { quote: 'The prices are competitive and the product range is good. It has helped us manage our regular stock purchases from one place.', stars: 5 },
+  { quote: 'What we value most is their quick response and service. When stock is needed, they make the process simple and efficient.', stars: 5 },
+  { quote: 'We have been buying from Manish’s for a long time. The trust and relationship we have built over the years is what keeps us connected.', stars: 5 },
+  { quote: 'From everyday grocery essentials to bulk requirements, we can find a wide range of products with reliable supply.', stars: 5 },
+  { quote: 'For our business, consistent supply is important. Manish’s has always been dependable when it comes to availability and service.', stars: 5 }
 ];
 
 const TRADE_REVIEWS = [
-  { quote: '[TRADE QUOTE — one or two lines about grade consistency, packing or delivery.]', name: '[BUYER NAME]', meta: '[BUSINESS] · buying since [YEAR]' },
-  { quote: '[TRADE QUOTE]', name: '[BUYER NAME]', meta: '[BUSINESS] · buying since [YEAR]' },
-  { quote: '[TRADE QUOTE]', name: '[BUYER NAME]', meta: '[BUSINESS] · buying since [YEAR]' }
+  { quote: 'Reliable supply and consistent quality make a real difference to our day-to-day business.' },
+  { quote: 'Their team understands our requirements and makes regular ordering quick and straightforward.' },
+  { quote: 'Good pricing, good service and a relationship we can depend on.' }
 ];
