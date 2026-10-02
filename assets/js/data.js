@@ -657,7 +657,7 @@ const PRODUCTS = [
   {
     slug: 'mix-masala', name: 'Mix Masala', category: 'spices-essentials', group: 'Masalas & blends',
     tagline: 'A ready blend of ground spices for everyday gravies', origin: '[ORIGIN]',
-    image: 'assets/img/Mix_Masala_Open-removebg-preview.png',
+     image: 'assets/img/Mix_Masala_Open-removebg-preview.png', back: 'assets/img/Mic_Masala_Openn-removebg-preview.png',
     lede: 'A pre-blended masala built around the spices most everyday gravies need — a shortcut for kitchens that would rather not measure out ten jars for one dish.',
     body: 'Blended in-house and ground fresh in batches rather than kept sitting on a shelf for months.',
     bestFor: 'Curries, gravies, everyday cooking', packing: 'Available from small retail packs to bulk cartons.',
