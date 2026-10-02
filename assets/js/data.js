@@ -425,12 +425,12 @@ const PRODUCTS = [
   },
 
    {
-    slug: 'jeera ( 10 Rs) ', name: 'Jeera', category: 'spices-essentials', group: 'Whole spices',
+    slug: 'jeera-10-rs', name: 'Jeera (₹10 Pack)', category: 'spices-essentials', group: 'Whole spices',
     tagline: 'Whole cumin, cleaned and aromatic', origin: '[ORIGIN]',
     image: 'assets/img/Front_Jeera-removebg-preview.png', back: 'assets/img/Back_jeera-removebg-preview.png',
     lede: 'Whole cumin seed, machine cleaned and hand checked, with the oil still in it.',
     body: '[ADD DETAIL — grade, whether you also supply ground jeera, seasonal availability.]',
-    bestFor: 'Tempering, masalas', packing: '25 kg sacks and 500g retail packs',
+    bestFor: 'Tempering, masalas', packing: '₹10 small retail pack',
     storage: 'Airtight and away from light; whole seed keeps its aroma about a year.',
     recipe: 'Dry roast and grind fresh ground jeera loses half its aroma within a month.',
     uses: ['Tadka', 'Garam masala', 'Jeera rice', 'Buttermilk']

@@ -405,7 +405,7 @@
     // only these lines have finished packet photography — shown in this
     // fixed order rather than catalogue order
     const FEATURED_SLUGS = [
-      'jeera', 'mustard-seeds', 'sesame-seeds', 'eating-soda',
+      'jeera', 'jeera-10-rs', 'mustard-seeds', 'sesame-seeds', 'eating-soda',
       'citric-acid', 'ajinomoto', 'desiccated-coconut-powder', 'mix-masala'
     ];
 
