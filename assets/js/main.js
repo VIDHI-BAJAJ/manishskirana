@@ -372,7 +372,6 @@
           '<h3>' + esc(p.name) + '</h3>' +
           '<p>' + esc(p.tagline) + '</p>' +
           '<div class="product-card__foot">' +
-            '<span>' + esc(p.origin) + '</span>' +
             '<span class="lock">' + (gate.unlocked() ? ICON.arrow : ICON.lock) + '</span>' +
           '</div>' +
         '</div>' +
@@ -426,7 +425,7 @@
 
       host.innerHTML = items.length ?
         '<div class="grid grid--4 grid--cat2">' + items.map(productCard).join('') + '</div>' + more :
-        '<p class="catalogue-empty">Nothing matches &ldquo;' + esc(term) + '&rdquo;. Try a product name, an origin or a use.</p>';
+        '<p class="catalogue-empty">Nothing matches &ldquo;' + esc(term) + '&rdquo;. Try a product name or a use.</p>';
 
       // the cards above are brand-new DOM nodes, so hand them to the
       // scroll-reveal observer now that they exist
@@ -508,9 +507,8 @@
         '<p class="eyebrow">' + esc(p.group) + '</p>' +
         '<div><h1>' + esc(p.name) + '</h1><p class="pdp__sub">' + esc(p.tagline) + '</p></div>' +
         '<p>' + esc(p.lede) + '</p>' +
-        '<p style="font-size:var(--fs-small);color:var(--ink-muted)">' + esc(p.body) + '</p>' +
+        (p.body ? '<p style="font-size:var(--fs-small);color:var(--ink-muted)">' + esc(p.body) + '</p>' : '') +
         '<div class="spec">' +
-          '<div><span class="spec__k">Origin</span><span class="spec__v">' + esc(p.origin) + '</span></div>' +
           '<div><span class="spec__k">Best for</span><span class="spec__v">' + esc(p.bestFor) + '</span></div>' +
           '<div><span class="spec__k">Packing</span><span class="spec__v">' + esc(p.packing) + '</span></div>' +
         '</div>' +
