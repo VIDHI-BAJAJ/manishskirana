@@ -507,7 +507,7 @@ ul { margin: 0; padding: 0; list-style: none; }
 }
 .cta-band__body { padding: clamp(2.5rem, 1.5rem + 4vw, 4.5rem) var(--gutter); display: flex; flex-direction: column; justify-content: center; gap: 1.125rem; }
 .cta-band__body h2 { color: var(--ivory); max-width: 40rem; }
-.cta-band__body p { max-width: 33rem; color: #fff; }
+.cta-band__body p { max-width: 33rem; color: var(--pale-gold); }
 .cta-band__body .btn { align-self: flex-start; margin-top: 0.5rem; }
 @media (min-width: 64rem) {
   .cta-band--row .cta-band__body { flex-direction: row; align-items: center; justify-content: space-between; gap: 3.75rem; }
