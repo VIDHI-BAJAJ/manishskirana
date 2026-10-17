@@ -318,7 +318,7 @@ const PRODUCTS = [
     image: 'assets/img/Front_Sesame-removebg-preview.png', back: 'assets/img/Back_Sesame-removebg-preview.png',
     lede: 'Hulled white sesame, sortex cleaned to 99.95% purity.',
     body: '',
-    bestFor: '[BEST FOR]', packing: 'Packs from ₹5 to 1 kg',
+    bestFor: 'Food manufacturing, bakery, sweets, cooking oils, snacks', packing: 'Packs from ₹5 to 1 kg',
     storage: 'Cool and dry in a sealed container.',
     recipe: '[A RECIPE TO TRY]', uses: ['Til laddu', 'Bakery', 'Tahini', 'Garnish']
   },
@@ -730,7 +730,7 @@ const PRODUCTS = [
     image: 'assets/img/Front_Citric_Acid-removebg-preview.png', back: 'assets/img/Back_Citric_Acid-removebg-preview.png',
     lede: 'Food-grade citric acid in a fine crystal that dissolves cleanly.',
     body: '',
-    bestFor: 'Preserving, confectionery', packing: 'Packs from ₹5 to 1 kg',
+    bestFor: 'Preserving, confectionery', packing: 'Packs from 50gms to 1 kg',
     storage: 'Sealed and dry — it cakes in humidity.',
     recipe: '[A RECIPE TO TRY]', uses: ['Pickling', 'Sherbets', 'Confectionery', 'Cleaning']
   },
